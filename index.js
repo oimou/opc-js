@@ -1,9 +1,19 @@
 "use strict";
 
-var dgram = require("dgram");
 var async = require("async");
 var OPC = require("./lib/opc");
 var opc = new OPC();
+
+opc.on("event", function (event) {
+    console.log("OPC EVENT:", event);
+});
+
+opc.on("error", function (err) {
+    console.error("OPC ERR:", err);
+
+    opc.destroy();
+    process.exit(1);
+});
 
 async.series([
     function (next) {
@@ -175,85 +185,62 @@ async.series([
     },
 
     function (next) {
-        var server = opc.liveviewServer = dgram.createSocket("udp4");
-
-        server.on("message", function (msg, rinfo) {
-            //console.log("MESSAGE: %s from %s:%s", msg, rinfo.address, rinfo.port);
-        });
-
-        server.on("listening", function () {
-            console.log("UDP SERVER STARTED LISTENING");
-
-            opc.execTakemisc({
-                com: "startliveview",
-                port: 5555
-            }, function (err, resp, body) {
-                if (err) {
-                    console.error("EXEC TAKEMISC ERR:", err);
-                    return next(err);
-                }
-
-                if (resp.statusCode === 200) {
-                    next();
-                } else {
-                    console.error(body);
-                    next("FAILED TO EXEC TAKEMISC");
-                }
-            });
-        });
-
-        server.bind(5555);
-    },
-
-    function (next) {
-        console.log("EXEC TAKEMOTION");
-
-        opc.execTakemotion({
-            com: "newstarttake"
+        opc.execTakemisc({
+            com: "startliveview",
+            port: 5555
         }, function (err, resp, body) {
             if (err) {
-                console.error("EXEC TAKEMOTION ERR:", err);
+                console.error("EXEC TAKEMISC ERR:", err);
                 return next(err);
             }
 
             if (resp.statusCode === 200) {
-                console.log(body);
                 next();
             } else {
                 console.error(body);
-                console.error(resp.statusCode);
-                next("FAILED TO EXEC TAKEMOTION");
+                next("FAILED TO EXEC TAKEMISC");
             }
         });
-    }
+    },
+
+    //function (next) {
+    //    console.log("EXEC TAKEMOTION");
+
+    //    opc.execTakemotion({
+    //        com: "newstarttake"
+    //    }, function (err, resp, body) {
+    //        if (err) {
+    //            console.error("EXEC TAKEMOTION ERR:", err);
+    //            return next(err);
+    //        }
+
+    //        if (resp.statusCode === 200) {
+    //            console.log(body);
+    //            next();
+    //        } else {
+    //            console.error(body);
+    //            console.error(resp.statusCode);
+    //            next("FAILED TO EXEC TAKEMOTION");
+    //        }
+    //    });
+    //}
 ], function onFinish(err, res) {
     if (err) {
-        opc.stopPushevent();
-        opc.execTakemisc({
-            com: "stopliveview"
-        });
-        opc.liveviewServer && opc.liveviewServer.close();
+        opc.destroy();
         console.error(err);
         return;
     }
 
+    opc.destroy();
     console.log("DONE");
 });
 
 process.on("SIGINT", function () {
-    opc.stopPushevent();
-    opc.execTakemisc({
-        com: "stopliveview"
-    });
-    opc.liveviewServer && opc.liveviewServer.close();
+    opc.destroy();
     process.exit(1);
 });
 
 process.on("uncaughtException", function () {
-    opc.stopPushevent();
-    opc.execTakemisc({
-        com: "stopliveview"
-    });
-    opc.liveviewServer && opc.liveviewServer.close();
+    opc.destroy();
     process.exit(1);
 });
