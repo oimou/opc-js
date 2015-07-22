@@ -15,6 +15,10 @@ opc.on("error", function (err) {
     process.exit(1);
 });
 
+opc.on("liveview:frame", function (jpg) {
+    require("fs").writeFile("tmp/frame." + Math.random() + ".jpg", jpg);
+});
+
 async.series([
     function (next) {
         console.log("GET CONNECTMODE");
@@ -203,27 +207,39 @@ async.series([
         });
     },
 
-    //function (next) {
-    //    console.log("EXEC TAKEMOTION");
+    function (next) {
+        setTimeout(function () {
+            next();
+        }, 3000);
+    },
 
-    //    opc.execTakemotion({
-    //        com: "newstarttake"
-    //    }, function (err, resp, body) {
-    //        if (err) {
-    //            console.error("EXEC TAKEMOTION ERR:", err);
-    //            return next(err);
-    //        }
+    function (next) {
+        console.log("EXEC TAKEMOTION");
 
-    //        if (resp.statusCode === 200) {
-    //            console.log(body);
-    //            next();
-    //        } else {
-    //            console.error(body);
-    //            console.error(resp.statusCode);
-    //            next("FAILED TO EXEC TAKEMOTION");
-    //        }
-    //    });
-    //}
+        opc.execTakemotion({
+            com: "newstarttake"
+        }, function (err, resp, body) {
+            if (err) {
+                console.error("EXEC TAKEMOTION ERR:", err);
+                return next(err);
+            }
+
+            if (resp.statusCode === 200) {
+                console.log(body);
+                next();
+            } else {
+                console.error(body);
+                console.error(resp.statusCode);
+                next("FAILED TO EXEC TAKEMOTION");
+            }
+        });
+    },
+
+    function (next) {
+        setTimeout(function () {
+            next();
+        }, 3000);
+    }
 ], function onFinish(err, res) {
     if (err) {
         opc.destroy();
