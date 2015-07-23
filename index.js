@@ -19,6 +19,10 @@ opc.on("liveview:frame", function (jpg) {
     require("fs").writeFile("tmp/frame." + Math.random() + ".jpg", jpg);
 });
 
+opc.on("camprop", function (res) {
+    console.log("camprop", res);
+});
+
 async.series([
     function (next) {
         console.log("GET CONNECTMODE");
