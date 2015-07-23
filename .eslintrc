@@ -52,6 +52,7 @@
       "beforeColon": false,
       "afterColon": true
     }],
-    "no-underscore-dangle": false
+    "no-underscore-dangle": false,
+    "no-loop-func": false
   }
 }
