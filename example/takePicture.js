@@ -11,8 +11,10 @@ opc.on("event", function (event) {
 opc.on("error", function (err) {
     console.error("OPC ERR:", err);
 
-    opc.destroy();
-    process.exit(1);
+    setTimeout(function () {
+        opc.destroy();
+        process.exit(1);
+    }, 2000);
 });
 
 opc.on("liveview:frame", function (jpg) {
