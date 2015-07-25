@@ -1,0 +1,43 @@
+@charset "utf-8";
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background: #222;
+}
+
+.canvas {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+.btn-takemotion {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border: 5px solid white;
+    padding: 32px;
+    color: white;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    cursor: pointer;
+    font-family: sans-serif;
+    letter-spacing: .2em;
+    text-align: center;
+}
+
+.btn-takemotion:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
