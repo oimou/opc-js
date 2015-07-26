@@ -1,6 +1,6 @@
 {
-  "name": "olympus-air-a01",
-  "version": "1.0.0",
+  "name": "opc-js",
+  "version": "0.1.0",
   "description": "JS library for Open Platform Camera.",
   "main": "index.js",
   "scripts": {
