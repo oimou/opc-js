@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/oimou/opc-js.svg)](https://travis-ci.org/oimou/opc-js)
+
 # OPC.js
 JS library for [Open Platform Camera](https://opc.olympus-imaging.com/).
 
@@ -12,6 +14,6 @@ opc.getConnectmode(function (err, resp, body) {
 });
 ```
 
-### References
+## References
 
 - [CAMERA KIT FOR DEVELOPERS | オリンパス OPC Hack & Make Project](https://opc.olympus-imaging.com/tools/sdk/)
