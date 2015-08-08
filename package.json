@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha",
-    "jsdoc": "./node_modules/.bin/jsdoc -r lib/"
+    "jsdoc": "./node_modules/.bin/jsdoc2md lib/**/* | sed -E 's/opC/opc/g' > APIDOC.md"
   },
   "author": "oimou <s1190013@gmail.com>",
   "dependencies": {
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "jsdoc": "^3.3.2",
+    "jsdoc-to-markdown": "^1.1.1",
     "mocha": "^2.2.5"
   }
 }

@@ -14,6 +14,10 @@ opc.getConnectmode(function (err, resp, body) {
 });
 ```
 
+## API
+
+See [APIDOC.md](APIDOC.md).
+
 ## References
 
 - [CAMERA KIT FOR DEVELOPERS | オリンパス OPC Hack & Make Project](https://opc.olympus-imaging.com/tools/sdk/)
