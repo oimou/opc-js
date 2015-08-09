@@ -53,12 +53,6 @@ async.series([
                 console.error("SWITCH COMMPATH ERR:", err);
                 return next(err);
             }
-
-            if (resp.statusCode === 200) {
-                next();
-            } else {
-                next("FAILED TO SWITCH COMMPATH");
-            }
         });
     },
 
@@ -87,12 +81,6 @@ async.series([
                 console.error("SWITCH CAMERAMODE ERR:", err);
                 return next(err);
             }
-
-            if (resp.statusCode === 200) {
-                next();
-            } else {
-                next("FAILED TO SWITCH CAMERAMODE");
-            }
         });
     },
 
@@ -113,12 +101,6 @@ async.series([
             if (err) {
                 console.error("SWITCH CAMERAMODE ERR:", err);
                 return next(err);
-            }
-
-            if (resp.statusCode === 200) {
-                next();
-            } else {
-                next("FAILED TO SWITCH CAMERAMODE");
             }
         });
     },
@@ -141,14 +123,6 @@ async.series([
             if (err) {
                 console.error("GET CAMPROP ERR:", err);
                 return next(err);
-            }
-
-            if (resp.statusCode === 200) {
-                console.log(body);
-                next();
-            } else {
-                console.log(body);
-                next("FAILED TO GET CAMPROP");
             }
         });
     },
@@ -183,14 +157,6 @@ async.series([
                 console.error("GET STATE ERR:", err);
                 return next(err);
             }
-
-            if (resp.statusCode === 200) {
-                console.log(body);
-                next();
-            } else {
-                console.log(body);
-                next("FAILED TO GET STATE");
-            }
         });
     },
 
@@ -202,13 +168,6 @@ async.series([
             if (err) {
                 console.error("EXEC TAKEMISC ERR:", err);
                 return next(err);
-            }
-
-            if (resp.statusCode === 200) {
-                next();
-            } else {
-                console.error(body);
-                next("FAILED TO EXEC TAKEMISC");
             }
         });
     },
@@ -228,15 +187,6 @@ async.series([
             if (err) {
                 console.error("EXEC TAKEMOTION ERR:", err);
                 return next(err);
-            }
-
-            if (resp.statusCode === 200) {
-                console.log(body);
-                next();
-            } else {
-                console.error(body);
-                console.error(resp.statusCode);
-                next("FAILED TO EXEC TAKEMOTION");
             }
         });
     },
