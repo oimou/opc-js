@@ -1,3 +1,8 @@
+/*
+ *  カメラの電源をONにしてカメラのWi-Fiに接続し
+ *  このサンプルコードを実行してください。
+ */
+
 "use strict";
 
 var async = require("async");
@@ -9,7 +14,7 @@ opc.on("error", function (err) {
 
     setTimeout(function () {
         opc.destroy();
-        process.exit(1);
+        process.exit(1); // eslint-disable-line
     }, 2000);
 });
 
@@ -17,20 +22,25 @@ opc.on("liveview:frame", function (jpg) {
     require("fs").writeFile("tmp/frame." + Math.random() + ".jpg", jpg);
 });
 
+process.on("SIGINT", function () {
+    opc.destroy();
+    process.exit(1); // eslint-disable-line
+});
+
+process.on("uncaughtException", function () {
+    opc.destroy();
+    process.exit(1); // eslint-disable-line
+});
+
 async.series([
     function (next) {
         opc.getConnectmode(function (err, data) {
             if (err) {
-                console.error("GET CONNECTMODE ERR:", err);
-                return next(err);
-            }
-
-            console.log("connect mode:", data);
-
-            if (true /* isOPC */) {
-                next();
-            } else {
+                next(err);
+            } else if (data.connectmode !== "OPC") {
                 next("NOT OPC DEVICE");
+            } else {
+                next();
             }
         });
     },
@@ -38,40 +48,19 @@ async.series([
     function (next) {
         opc.switchCommpath({
             path: "wifi"
-        }, function (err, resp, body) {
-            if (err) {
-                console.error("SWITCH COMMPATH ERR:", err);
-                return next(err);
-            }
-
-            next();
-        });
+        }, next);
     },
 
     function (next) {
         opc.startPushevent({
             port: 65000
-        }, function (err) {
-            if (err) {
-                console.error("START PUSHEVENT ERR:", err);
-                return next(err);
-            }
-
-            next();
-        });
+        }, next);
     },
 
     function (next) {
         opc.switchCameramode({
             mode: "standalone"
-        }, function (err, resp, body) {
-            if (err) {
-                console.error("SWITCH CAMERAMODE ERR:", err);
-                return next(err);
-            }
-
-            next();
-        });
+        }, next);
     },
 
     function (next) {
@@ -83,14 +72,7 @@ async.series([
     function (next) {
         opc.switchCameramode({
             mode: "rec"
-        }, function (err, resp, body) {
-            if (err) {
-                console.error("SWITCH CAMERAMODE ERR:", err);
-                return next(err);
-            }
-
-            next();
-        });
+        }, next);
     },
 
     function (next) {
@@ -103,14 +85,7 @@ async.series([
         opc.execTakemisc({
             com: "startliveview",
             port: 5555
-        }, function (err, resp, body) {
-            if (err) {
-                console.error("EXEC TAKEMISC ERR:", err);
-                return next(err);
-            }
-
-            next();
-        });
+        }, next);
     },
 
     function (next) {
@@ -122,14 +97,7 @@ async.series([
     function (next) {
         opc.execTakemotion({
             com: "newstarttake"
-        }, function (err, resp, body) {
-            if (err) {
-                console.error("EXEC TAKEMOTION ERR:", err);
-                return next(err);
-            }
-
-            next();
-        });
+        }, next);
     },
 
     function (next) {
@@ -137,7 +105,7 @@ async.series([
             next();
         }, 3000);
     }
-], function onFinish(err, res) {
+], function onFinish(err) {
     if (err) {
         opc.destroy();
         console.error(err);
@@ -145,14 +113,4 @@ async.series([
     }
 
     opc.destroy();
-});
-
-process.on("SIGINT", function () {
-    opc.destroy();
-    process.exit(1);
-});
-
-process.on("uncaughtException", function () {
-    opc.destroy();
-    process.exit(1);
 });
