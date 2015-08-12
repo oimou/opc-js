@@ -29,7 +29,7 @@ describe("OPC", function () {
 
         server.listen(expectedEventServerPort, function () {
             opc._request = function (opt, cb) {
-                cb();
+                cb(null, { statusCode: 200 }, "");
             };
 
             var param = {
