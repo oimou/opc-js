@@ -14,6 +14,12 @@ opc.getConnectmode(function (err, resp, body) {
 });
 ```
 
+You can show debug log by passing `DEBUG=opc:*`.
+
+```
+DEBUG=opc:* node example/takePicture.js
+```
+
 ## API
 
 See [APIDOC.md](APIDOC.md).

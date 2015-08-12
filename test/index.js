@@ -7,6 +7,7 @@ describe("OPC", function () {
     var OPC = require("../lib/opc");
     var nop = function () {};
     var opc;
+    var server;
 
     beforeEach(function () {
         opc = new OPC();
@@ -24,8 +25,9 @@ describe("OPC", function () {
     });
 
     it("should start an event server on calling startPushevent", function (done) {
-        var server = net.createServer();
         var expectedEventServerPort = 65000;
+
+        server = net.createServer();
 
         server.listen(expectedEventServerPort, function () {
             opc._request = function (opt, cb) {
@@ -42,9 +44,13 @@ describe("OPC", function () {
                 expect(opc.eventServer).to.exist;
                 expect(opc.eventServerPort).to.equal(expectedEventServerPort);
 
-                server.close();
                 done();
             });
         });
+    });
+
+    afterEach(function () {
+        opc && opc.stopPushevent();
+        server && server.close();
     });
 });
