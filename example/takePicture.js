@@ -5,9 +5,14 @@
 
 "use strict";
 
+var fs = require("fs");
 var async = require("async");
 var OPC = require("../");
 var opc = new OPC();
+
+if (!fs.existsSync("tmp")) {
+    fs.mkdirSync("tmp");
+}
 
 opc.on("error", function (err) {
     console.error("OPC ERR:", err);
@@ -19,7 +24,7 @@ opc.on("error", function (err) {
 });
 
 opc.on("liveview:frame", function (jpg) {
-    require("fs").writeFile("tmp/frame." + Math.random() + ".jpg", jpg);
+    fs.writeFile("tmp/frame." + Math.random() + ".jpg", jpg);
 });
 
 process.on("SIGINT", function () {
@@ -27,8 +32,9 @@ process.on("SIGINT", function () {
     process.exit(1); // eslint-disable-line
 });
 
-process.on("uncaughtException", function () {
+process.on("uncaughtException", function (err) {
     opc.destroy();
+    console.error(err);
     process.exit(1); // eslint-disable-line
 });
 
