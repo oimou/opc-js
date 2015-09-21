@@ -17,6 +17,7 @@ opc.getConnectmode(function (err, resp, body) {
 You can show debug log by passing `DEBUG=opc:*`.
 
 ```
+npm install
 DEBUG=opc:* node example/takePicture.js
 ```
 
