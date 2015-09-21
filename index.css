@@ -11,7 +11,7 @@
 
 .main {
     background: #fff;
-    padding: 64px;
+    padding: 64px 0;
 }
 
 .footer {
@@ -46,6 +46,7 @@
 
 .social__button {
     vertical-align: middle;
+    margin-bottom: 16px;
 }
 
 .separator {
