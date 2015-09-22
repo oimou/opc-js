@@ -18,7 +18,7 @@ You can show debug log by passing `DEBUG=opc:*`.
 
 ```
 npm install
-DEBUG=opc:* node example/takePicture.js
+DEBUG=opc:* node example/liveview.js
 ```
 
 ## API
