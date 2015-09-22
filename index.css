@@ -1,5 +1,10 @@
 @charset "utf-8";
 
+a,
+.btn-link{
+    color: #BF4E30;
+}
+
 .header {
 }
 
