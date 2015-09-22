@@ -1,7 +1,7 @@
 /*
  *  カメラの電源をONにしてカメラのWi-Fiに接続し
  *  このサンプルコードを実行してください。
- *  tmpディレクトリにライブビュー画像が保存されます。
+ *  tmpディレクトリに撮影結果画像が保存されます。
  */
 
 "use strict";
@@ -11,20 +11,35 @@ var async = require("async");
 var OPC = require("../");
 var opc = new OPC();
 
-process.on("SIGINT", function () {
-    opc.destroy();
-    process.exit(1); // eslint-disable-line
-});
-
-process.on("uncaughtException", function (err) {
-    opc.destroy();
-    console.error(err);
-    process.exit(1); // eslint-disable-line
-});
+if (!fs.existsSync("tmp")) {
+    fs.mkdirSync("tmp");
+}
 
 async.series([
     function (next) {
         opc.negotiate(null, next);
+    },
+
+    function (next) {
+        opc.setCamprop({
+            com: "set",
+            propname: "RAW",
+            body: "<?xml version=\"1.0\"?><set><value>OFF</value></set>"
+        }, function (err, data) {
+            console.log(err, data);
+            next();
+        });
+    },
+
+    function (next) {
+        opc.setCamprop({
+            com: "set",
+            propname: "DESTINATION_FILE",
+            body: "<?xml version=\"1.0\"?><set><value>DESTINATION_FILE_WIFI</value></set>"
+        }, function (err, data) {
+            console.log(err, data);
+            next();
+        });
     },
 
     function (next) {
@@ -34,39 +49,15 @@ async.series([
     },
 
     function (next) {
-        opc.once("image:finished", function () {
-            next();
-        });
-    },
-
-    function (next) {
-        opc.execTakemisc({
-            com: "getrecview"
-        }, function () {
-            next();
-        });
-    },
-
-    function (next) {
-        opc.getCamprop({
-            com: "get",
-            propname: "DESTINATION_FILE"
-        }, function (err, data) {
-            console.log(err, data);
-            next();
-        });
-    },
-
-    function (next) {
         opc.once("transfer:request", function () {
             next();
         });
     },
 
     function (next) {
-        opc.execStoreimage(function (err, data) {
-            console.log(data);
-            next();
+        opc.execStoreimage(function (err, image) {
+            fs.writeFileSync("tmp/result.jpg", image);
+            next(err);
         });
     }
 ], function onFinish(err) {
@@ -74,5 +65,5 @@ async.series([
         console.error(err);
     }
 
-    console.log("FINISHED");
+    opc.destroy();
 });
