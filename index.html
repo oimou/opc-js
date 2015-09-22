@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/magnific-popup.min.css">
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -88,8 +89,13 @@ opc.switchCameramode({
                 </div>
 
                 <div class="col-lg-6">
-                    <img class="img-responsive image" src="images/screen.png" alt="">
-                    <img class="img-responsive image" src="images/oa-mb.jpg" alt="">
+                    <a href="images/screen.png" data-popup>
+                        <img class="img-responsive image" src="images/screen.png" alt="ライブビュー">
+                    </a>
+
+                    <a href="images/oa-mb.jpg" data-popup>
+                        <img class="img-responsive image" src="images/oa-mb.jpg" alt="OLYMPUS AIRとMacbook">
+                    </a>
                 </div>
             </div>
 
@@ -103,6 +109,9 @@ opc.switchCameramode({
         <small>(c) 2015 <a href="https://twitter.com/oimooooou">oimou</a></small>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
