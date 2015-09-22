@@ -25,6 +25,14 @@ DEBUG=opc:* node example/takePicture.js
 
 See [APIDOC.md](APIDOC.md).
 
+## TODO
+
+- write Q&A
+- more examples
+- implement methods of basic sequence
+- complete events
+- etc.
+
 ## References
 
 - [CAMERA KIT FOR DEVELOPERS | オリンパス OPC Hack & Make Project](https://opc.olympus-imaging.com/tools/sdk/)
