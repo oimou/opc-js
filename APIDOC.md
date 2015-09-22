@@ -27,6 +27,8 @@
   * [.execErase(param, cb)](#OPC+execErase)
   * [.releaseAllprotect(cb)](#OPC+releaseAllprotect)
   * [.execProtect(param, cb)](#OPC+execProtect)
+  * [.negotiate(param, cbFunction)](#OPC+negotiate)
+  * [.destroy()](#OPC+destroy)
 
 <a name="new_OPC_new"></a>
 ### new OPC()
@@ -277,3 +279,19 @@ OPC
 | param | <code>Object</code> | 
 | cb | <code>function</code> | 
 
+<a name="OPC+negotiate"></a>
+### opc.negotiate(param, cbFunction)
+撮影準備のためのネゴシエーション
+
+**Kind**: instance method of <code>[OPC](#OPC)</code>  
+
+| Param | Type |
+| --- | --- |
+| param | <code>Object</code> | 
+| cbFunction | <code>function</code> | 
+
+<a name="OPC+destroy"></a>
+### opc.destroy()
+接続解除
+
+**Kind**: instance method of <code>[OPC](#OPC)</code>  
